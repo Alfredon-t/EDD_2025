@@ -13,6 +13,7 @@ datosTw = []
 datosFb = []
 datosYt = []
 
+
 for row in datosCsv:
     if row[0] == "TWITTER" and "FOLLOWERS" in row[1]:
         datosTw.append(row[3:9])
