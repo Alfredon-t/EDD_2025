@@ -8,9 +8,8 @@ class ConjuntoADT():
     def contiene(self, item):
         return item in self.conjunto
 
-    def agregar(self, item):
-        if not self.contiene(item):
-            self.conjunto.add(item)
+    def agregar(self, *items):
+        self.conjunto.update(items)
 
     def eliminar(self, item):
         if self.contiene(item):
