@@ -4,8 +4,8 @@ if __name__ == "__main__":
     conjunto1 = ConjuntoADT()  # 1, 4, 5, 14, 24, 38, 47, 88
     conjunto2 = ConjuntoADT()  # 2, 3, 4, 5, 14, 23, 38, 47, 89
 
-    conjunto1.agregar(1, 4, 5, 14, 24, 38, 47, 88)
-    conjunto2.agregar(2, 3, 4, 5, 14, 23, 38, 47, 89)
+    conjunto1.agregar(3, 7, 12, 21, 0, 6, 9)
+    conjunto2.agregar(2, 5, 10, 16, 9, 25, 8)
 
     print(f"Conjunto 1: {conjunto1.conjunto}")
     print(f"Conjunto 2: {conjunto2.conjunto}")
@@ -17,14 +17,14 @@ if __name__ == "__main__":
     print("")
 
     print("Comprobación de pertenencia de un elemento")
-    print(f"El conjunto 1 contiene '1': {conjunto1.contiene(1)}")
-    print(f"El conjunto 1 contiene '1': {conjunto2.contiene(1)}")
+    print(f"El conjunto 1 contiene '10': {conjunto1.contiene(10)}")
+    print(f"El conjunto 2 contiene '10': {conjunto2.contiene(10)}")
     print("")
 
     print("Eliminación de elementos ")
-    conjunto1.eliminar(1)
-    print(f"El conjunto 1 contiene '1' después de la eliminación: {
-          conjunto1.contiene(1)}")
+    conjunto2.eliminar(10)
+    print(f"El conjunto 2 contiene '10' después de la eliminación: {
+          conjunto2.contiene(10)}")
     print("")
 
     print("Unión de conjuntos")
