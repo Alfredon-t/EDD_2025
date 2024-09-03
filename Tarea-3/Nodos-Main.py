@@ -2,7 +2,7 @@ from Nodo import Nodo
 
 
 class NodosMain:
-
+    
     def imprimir(Nodo):
         aux = Nodo
         print("|", end="")
