@@ -6,7 +6,7 @@ class JuegoDeLaVida:
         self.tablero = Array2d(row, col)
         self.rows = row
         self.cols = col
-        self.tablero.clear('x')  # 'x' es una célula muerta
+        self.tablero.clear('-')  # 'x' es una célula muerta
 
     def get_vecinos_vivos(self, row, col):
         direcciones = [(-1, -1), (-1, 0), (-1, 1),
@@ -40,16 +40,16 @@ class JuegoDeLaVida:
                     if vecinos_vivos == 2 or vecinos_vivos == 3:
                         new_tablero.set_item(i, j, '0')
                     else:
-                        new_tablero.set_item(i, j, 'x')
+                        new_tablero.set_item(i, j, '-')
                 else:
                     if vecinos_vivos == 3:
                         new_tablero.set_item(i, j, '0')
                     else:
-                        new_tablero.set_item(i, j, 'x')
+                        new_tablero.set_item(i, j, '-')
         self.tablero = new_tablero
 
     def play(self, generaciones):
         for gen in range(generaciones):
             print(f"Generacion {gen + 1}")
             print(self.tablero)
-            self.siguiente_gen
+            self.siguiente_gen()
