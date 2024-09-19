@@ -22,4 +22,5 @@ class Queue:
         return self.data.pop(0)
 
     def __str__(self):
-        return f"ColaADT(data={self.data})"
+        pacientes_str = "\n".join([str(paciente) for paciente in self.data])
+        return f"\n**********PACIENTES**********\n{pacientes_str}"
