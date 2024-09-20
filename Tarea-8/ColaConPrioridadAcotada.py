@@ -29,4 +29,8 @@ class ColaConPrioridadAcotada:
         return None
 
     def __str__(self):
-        return f"ColaConPrioridadAcotada(colas={self.colas}, max_prioridad={self.max_prioridad})"
+        res = "\n"
+        for i, cola in enumerate(self.colas):
+            if cola.longitud() > 0:
+                res += f"Prioridad {i}: {cola}\n"
+        return res if res.strip() else "No hay clientes."

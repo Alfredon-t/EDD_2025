@@ -23,4 +23,4 @@ class Queue:
 
     def __str__(self):
         pacientes_str = "\n".join([str(paciente) for paciente in self.data])
-        return f"\n**********PACIENTES**********\n{pacientes_str}"
+        return f"\n**********CLIENTES**********\n{pacientes_str}"
