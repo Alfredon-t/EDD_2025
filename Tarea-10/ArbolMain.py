@@ -2,39 +2,33 @@ from NodoArbol import NodoArbol
 
 
 class ArbolMain:
-    def crear_arbol_numeros(self):
-        # Creamos los nodos del árbol de números
-        nodo_1 = NodoArbol(1)
-        nodo_5 = NodoArbol(5, hijo_izq=nodo_1)
-        nodo_25 = NodoArbol(25)
-        nodo_15 = NodoArbol(15, hijo_der=nodo_25)
-        nodo_10 = NodoArbol(10, hijo_izq=nodo_5, hijo_der=nodo_15)
+    def arbol_numeros(self):
+        nodo1 = NodoArbol(1)
+        nodo2 = NodoArbol(5, hijo_izq=nodo1)
+        nodo3 = NodoArbol(25)
+        nodo4 = NodoArbol(15, hijo_der=nodo3)
+        raiz = NodoArbol(10, hijo_izq=nodo2, hijo_der=nodo4)
+        return raiz
 
-        return nodo_10  # Este es el nodo raíz
-
-    def crear_arbol_nombres(self):
-        # Creamos los nodos del árbol de nombres
-        nodo_susan = NodoArbol("Susan")
-        nodo_diana = NodoArbol("Diana")
-        nodo_pedro = NodoArbol(
-            "Pedro", hijo_izq=nodo_susan, hijo_der=nodo_diana)
-        nodo_mario = NodoArbol("Mario")
-        nodo_diego = NodoArbol(
-            "Diego", hijo_izq=nodo_pedro, hijo_der=nodo_mario)
-        return nodo_diego  # Este es el nodo raíz
+    def arbol_nombres(self):
+        nodo1 = NodoArbol("Susan")
+        nodo2 = NodoArbol("Diana")
+        nodo3 = NodoArbol(
+            "Pedro", hijo_izq=nodo1, hijo_der=nodo2)
+        nodo4 = NodoArbol("Mario")
+        raiz = NodoArbol(
+            "Diego", hijo_izq=nodo3, hijo_der=nodo4)
+        return raiz
 
 
 def main():
-    # Crear una instancia de ArbolMain
     arbol_main = ArbolMain()
 
-    # Crear el árbol de números
-    arbol_numeros = arbol_main.crear_arbol_numeros()  # Llamada al método de instancia
+    arbol_numeros = arbol_main.arbol_numeros()
     print("Árbol de números:")
     print(arbol_numeros)
 
-    # Crear el árbol de nombres
-    arbol_nombres = arbol_main.crear_arbol_nombres()  # Llamada al método de instancia
+    arbol_nombres = arbol_main.arbol_nombres()
     print("\nÁrbol de nombres:")
     print(arbol_nombres)
 
