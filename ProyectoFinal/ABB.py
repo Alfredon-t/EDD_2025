@@ -27,7 +27,6 @@ class ABB:
             else:
                 self.ins_recursivo(nodo.derecho, producto)
         else:
-            # Si el producto con el mismo ID ya existe, incrementamos la cantidad
             nodo.producto.cantidad += producto.cantidad
 
     def buscar(self, id_producto):
@@ -36,9 +35,9 @@ class ABB:
     def bus_recursivo(self, nodo, id_producto):
         if nodo is None:
             return None
-        if id_producto == nodo.producto.id_producto:  # Aquí debe ser 'producto'
+        if id_producto == nodo.producto.id_producto:
             return nodo.producto
-        elif id_producto < nodo.producto.id_producto:  # Aquí también 'producto'
+        elif id_producto < nodo.producto.id_producto:
             return self.bus_recursivo(nodo.izquierdo, id_producto)
         else:
             return self.bus_recursivo(nodo.derecho, id_producto)
@@ -49,10 +48,8 @@ class ABB:
     def bus_por_nombre(self, nodo, nombre):
         if nodo is None:
             return None
-        # Si encontramos un producto con el nombre
         if nodo.producto.nombre.lower() == nombre.lower():
             return nodo.producto
-        # Recursivamente buscamos en el subárbol izquierdo y derecho
         encontrado_izq = self.bus_por_nombre(nodo.izquierdo, nombre)
         if encontrado_izq:
             return encontrado_izq
@@ -72,15 +69,15 @@ class ABB:
             return nodo, False
 
         eliminado = False
-        if id_producto == nodo.producto.id_producto:  # Cambiar a 'producto'
-            if nodo.producto.cantidad >= cantidad:  # Cambiar a 'producto'
+        if id_producto == nodo.producto.id_producto:
+            if nodo.producto.cantidad >= cantidad:
                 nodo.producto.cantidad -= cantidad
                 if nodo.producto.cantidad == 0:
-                    nodo = None  # Eliminar producto si la cantidad llega a 0
+                    nodo = None
                 eliminado = True
             else:
                 print("Error: No hay suficiente cantidad para eliminar.")
-        elif id_producto < nodo.producto.id_producto:  # Cambiar a 'producto'
+        elif id_producto < nodo.producto.id_producto:
             nodo.izquierdo, eliminado = self.elim_recursivo(
                 nodo.izquierdo, id_producto, cantidad)
         else:

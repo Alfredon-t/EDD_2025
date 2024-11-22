@@ -4,88 +4,78 @@ from ABB import ABB
 from Producto import Producto
 
 
-class App:
-    def __init__(self, root):
+class Interfaz:
+    def __init__(self, principal):
         self.arbol = ABB()
-        self.root = root
-        self.root.title("Proyecto Final")
-        self.root.geometry("600x400")  # Tamaño inicial
-        self.root.resizable(True, True)  # Permitir redimensionar
-        self.next_id = 1
+        self.principal = principal
+        self.principal.title("Proyecto Final EDD_2025")
+        self.principal.geometry("500x400")
+        self.principal.resizable(True, True)
+        self.sig_id = 1
         self.componentes()
-        self.configurar_grid()
+        self.config_grid()
 
     def componentes(self):
-        # Etiqueta principal
-        self.titulo_label = tk.Label(
-            self.root, text="Gestión de Inventario", font=("Arial", 16))
-        self.titulo_label.grid(
+        self.titulo_lb = tk.Label(
+            self.principal, text="Sistema de Inventario", font=("Arial", 16))
+        self.titulo_lb.grid(
             row=0, column=0, columnspan=2, pady=10, sticky="nsew")
 
-        # Crear un frame para centrar los campos
-        self.campos_frame = tk.Frame(self.root)
-        self.campos_frame.grid(
+        self.campos_pos = tk.Frame(self.principal)
+        self.campos_pos.grid(
             row=1, column=0, columnspan=2, pady=20, sticky="nsew")
 
-        self.campos_frame.grid_columnconfigure(0, weight=1)
-        self.campos_frame.grid_columnconfigure(1, weight=1)
+        self.campos_pos.grid_columnconfigure(0, weight=1)
+        self.campos_pos.grid_columnconfigure(1, weight=1)
 
-        # Campos y etiquetas dentro del frame
-        self.crear_fila("ID:", 0, "id_entry", self.campos_frame)
-        self.crear_fila("Nombre:", 1, "nombre_entry", self.campos_frame)
-        self.crear_fila("Precio:", 2, "precio_entry", self.campos_frame)
-        self.crear_fila("Cantidad:", 3, "cantidad_entry", self.campos_frame)
+        self.fila("ID:", 0, "id_entry", self.campos_pos)
+        self.fila("Nombre:", 1, "nombre_entry", self.campos_pos)
+        self.fila("Precio:", 2, "precio_entry", self.campos_pos)
+        self.fila("Cantidad:", 3, "cantidad_entry", self.campos_pos)
 
-        # Crear un frame para los botones
-        self.botones_frame = tk.Frame(self.root)
-        self.botones_frame.grid(
+        self.botones_pos = tk.Frame(self.principal)
+        self.botones_pos.grid(
             row=2, column=0, columnspan=2, pady=20, sticky="nsew")
 
-        self.botones_frame.grid_columnconfigure(0, weight=1)
-        self.botones_frame.grid_columnconfigure(1, weight=1)
+        self.botones_pos.grid_columnconfigure(0, weight=1)
+        self.botones_pos.grid_columnconfigure(1, weight=1)
 
-        # Botones con separación
         self.agregar_btn = tk.Button(
-            self.botones_frame, text="Agregar", command=self.agregar)
+            self.botones_pos, text="Agregar", command=self.agregar)
         self.agregar_btn.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
         self.eliminar_btn = tk.Button(
-            self.botones_frame, text="Eliminar", command=self.eliminar)
+            self.botones_pos, text="Eliminar", command=self.eliminar)
         self.eliminar_btn.grid(row=0, column=1, padx=10,
                                pady=10, sticky="nsew")
 
         self.buscar_btn = tk.Button(
-            self.botones_frame, text="Buscar", command=self.buscar)
+            self.botones_pos, text="Buscar", command=self.buscar)
         self.buscar_btn.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
         self.listar_btn = tk.Button(
-            self.botones_frame, text="Listar", command=self.listar)
+            self.botones_pos, text="Listar", command=self.listar)
         self.listar_btn.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
 
-    def crear_fila(self, texto, fila, entrada_nombre, parent):
-        """Crea una fila con etiqueta y campo de entrada dentro de un parent frame."""
+    def fila(self, texto, fila, entrada_nombre, parent):
         etiqueta = tk.Label(parent, text=texto)
         etiqueta.grid(row=fila, column=0, sticky="e", padx=5, pady=5)
         entrada = tk.Entry(parent)
         entrada.grid(row=fila, column=1, sticky="nsew", padx=5, pady=5)
         setattr(self, entrada_nombre, entrada)
 
-    def configurar_grid(self):
-        """Configura el comportamiento del grid para expandirse."""
-        # Configurar pesos para filas y columnas
-        for i in range(7):  # Número de filas
-            self.root.grid_rowconfigure(i, weight=1)
-        for j in range(2):  # Número de columnas
-            self.root.grid_columnconfigure(j, weight=1)
+    def config_grid(self):
+        for i in range(7):
+            self.principal.grid_rowconfigure(i, weight=1)
+        for j in range(2):
+            self.principal.grid_columnconfigure(j, weight=1)
 
     def agregar(self):
         try:
-            # Obtener datos del formulario
             nombre = self.nombre_entry.get().strip()
             precio = float(self.precio_entry.get())
             cantidad = int(self.cantidad_entry.get())
 
-            # Validaciones
             if not nombre:
                 raise ValueError("El nombre no puede estar vacío.")
             if precio <= 0:
@@ -93,58 +83,54 @@ class App:
             if cantidad <= 0:
                 raise ValueError("La cantidad debe ser mayor a 0.")
 
-            # Verificar si el producto ya existe
-            producto_existente = self.arbol.buscar_por_nombre(nombre)
-            if producto_existente and producto_existente.precio == precio:
-                producto_existente.cantidad += cantidad
+            producto_exis = self.arbol.buscar_por_nombre(nombre)
+            if producto_exis and producto_exis.precio == precio:
+                producto_exis.cantidad += cantidad
                 messagebox.showinfo(
-                    "Éxito",
-                    f"Producto ya existente. Cantidad actualizada: {
-                        producto_existente.cantidad} unidades.",
+                    "Proyecto Final",
+                    f"El producto ya existe, se ha actualizado su cantidad: {
+                        producto_exis.cantidad} unidades.",
                 )
-            elif producto_existente and producto_existente.precio != precio:
+            elif producto_exis and producto_exis.precio != precio:
                 raise ValueError(
-                    f"Ya existe un producto con el nombre '{
-                        nombre}' pero con un precio diferente."
+                    f"El producto '{
+                        nombre}' existe, pero con un precio diferente."
                 )
             else:
-                # Crear nuevo producto
-                producto = Producto(self.next_id, nombre, precio, cantidad)
+                producto = Producto(self.sig_id, nombre, precio, cantidad)
                 self.arbol.insertar(producto)
-                self.next_id += 1
+                self.sig_id += 1
                 messagebox.showinfo(
-                    "Éxito", "Producto agregado correctamente.")
+                    "Proyecto Final", "El producto se agrego correctamente.")
 
             self.limpiar()
 
         except ValueError as ve:
             messagebox.showerror("Error", str(ve))
         except Exception as e:
-            messagebox.showerror("Error", f"Error inesperado: {str(e)}")
+            messagebox.showerror("Error", f"Error: {str(e)}")
 
     def eliminar(self):
-        # Obtener el ID y la cantidad desde los campos de entrada
         id_producto = self.id_entry.get()
         cantidad = self.cantidad_entry.get()
 
-        # Verificar que el ID y la cantidad sean números válidos
         try:
-            id_producto = int(id_producto)  # Convertir el ID a entero
+            id_producto = int(id_producto)
         except ValueError:
-            messagebox.showerror("Error", "ID no válido.")
+            messagebox.showerror("Error", "No existe el ID.")
             return
 
         try:
-            cantidad = int(cantidad)  # Convertir la cantidad a entero
+            cantidad = int(cantidad)
         except ValueError:
-            messagebox.showerror("Error", "Cantidad no válida.")
+            messagebox.showerror(
+                "Error", "La cantidad ingresada no es válida.")
             return
 
-        # Llamar al método de eliminación con los parámetros ID y cantidad
         eliminado = self.arbol.eliminar(id_producto, cantidad)
         if eliminado:
-            messagebox.showinfo("Éxito", f"Producto con ID {
-                                id_producto} eliminado con éxito.")
+            messagebox.showinfo("Proyecto Final", f"El producto con ID {
+                                id_producto} ha sido eliminado con éxito.")
         else:
             messagebox.showwarning(
                 "Error", f"No se pudo eliminar el producto con ID {id_producto}.")
@@ -156,7 +142,8 @@ class App:
             if producto:
                 messagebox.showinfo("Producto encontrado", str(producto))
             else:
-                messagebox.showwarning("Aviso", "Producto no encontrado.")
+                messagebox.showwarning(
+                    "Aviso", "El producto no ha sido encontrado.")
         except ValueError:
             messagebox.showerror("Error", "Ingrese un ID válido.")
 
@@ -167,7 +154,7 @@ class App:
             messagebox.showinfo("Inventario", lista)
         else:
             messagebox.showinfo(
-                "Inventario", "No hay productos en el inventario.")
+                "Inventario", "El inventario esta vacío.")
 
     def limpiar(self):
         self.id_entry.delete(0, tk.END)
@@ -177,6 +164,6 @@ class App:
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = App(root)
-    root.mainloop()
+    principal = tk.Tk()
+    gui = Interfaz(principal)
+    principal.mainloop()
