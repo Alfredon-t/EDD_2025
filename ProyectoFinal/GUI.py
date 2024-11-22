@@ -6,12 +6,12 @@ from Producto import Producto
 
 class App:
     def __init__(self, root):
-        self.inventario = ABB()
+        self.arbol = ABB()
         self.root = root
         self.root.title("Proyecto Final")
         self.root.geometry("600x400")  # Tamaño inicial
         self.root.resizable(True, True)  # Permitir redimensionar
-        self.id_contador = 1
+        self.next_id = 1
         self.componentes()
         self.configurar_grid()
 
@@ -94,7 +94,7 @@ class App:
                 raise ValueError("La cantidad debe ser mayor a 0.")
 
             # Verificar si el producto ya existe
-            producto_existente = self.inventario.buscar_por_nombre(nombre)
+            producto_existente = self.arbol.buscar_por_nombre(nombre)
             if producto_existente and producto_existente.precio == precio:
                 producto_existente.cantidad += cantidad
                 messagebox.showinfo(
@@ -110,7 +110,7 @@ class App:
             else:
                 # Crear nuevo producto
                 producto = Producto(self.next_id, nombre, precio, cantidad)
-                self.inventario.insertar(producto)
+                self.arbol.insertar(producto)
                 self.next_id += 1
                 messagebox.showinfo(
                     "Éxito", "Producto agregado correctamente.")
@@ -123,49 +123,36 @@ class App:
             messagebox.showerror("Error", f"Error inesperado: {str(e)}")
 
     def eliminar(self):
+        # Obtener el ID y la cantidad desde los campos de entrada
+        id_producto = self.id_entry.get()
+        cantidad = self.cantidad_entry.get()
+
+        # Verificar que el ID y la cantidad sean números válidos
         try:
-            # Obtener datos del formulario
-            id_producto = int(self.id_entry.get())
-            cantidad_eliminar = int(self.cantidad_entry.get())
+            id_producto = int(id_producto)  # Convertir el ID a entero
+        except ValueError:
+            messagebox.showerror("Error", "ID no válido.")
+            return
 
-            # Validaciones
-            if cantidad_eliminar <= 0:
-                raise ValueError("La cantidad a eliminar debe ser mayor a 0.")
+        try:
+            cantidad = int(cantidad)  # Convertir la cantidad a entero
+        except ValueError:
+            messagebox.showerror("Error", "Cantidad no válida.")
+            return
 
-            # Buscar el producto en el inventario
-            producto_existente = self.inventario.buscar(
-                Producto(id_producto, "", 0, 0))
-            if producto_existente:
-                if producto_existente.cantidad > cantidad_eliminar:
-                    producto_existente.cantidad -= cantidad_eliminar
-                    messagebox.showinfo(
-                        "Éxito",
-                        f"Se eliminaron {cantidad_eliminar} unidades. Quedan {
-                            producto_existente.cantidad} unidades.",
-                    )
-                elif producto_existente.cantidad == cantidad_eliminar:
-                    self.inventario.eliminar(producto_existente)
-                    messagebox.showinfo(
-                        "Éxito", "Producto eliminado completamente.")
-                else:
-                    messagebox.showwarning(
-                        "Aviso",
-                        "No hay suficientes unidades para eliminar la cantidad especificada.",
-                    )
-            else:
-                messagebox.showwarning("Aviso", "Producto no encontrado.")
-
-            self.limpiar()
-
-        except ValueError as ve:
-            messagebox.showerror("Error", str(ve))
-        except Exception as e:
-            messagebox.showerror("Error", f"Error inesperado: {str(e)}")
+        # Llamar al método de eliminación con los parámetros ID y cantidad
+        eliminado = self.arbol.eliminar(id_producto, cantidad)
+        if eliminado:
+            messagebox.showinfo("Éxito", f"Producto con ID {
+                                id_producto} eliminado con éxito.")
+        else:
+            messagebox.showwarning(
+                "Error", f"No se pudo eliminar el producto con ID {id_producto}.")
 
     def buscar(self):
         try:
             id_producto = int(self.id_entry.get())
-            producto = self.inventario.buscar(id_producto)
+            producto = self.arbol.buscar(id_producto)
             if producto:
                 messagebox.showinfo("Producto encontrado", str(producto))
             else:
@@ -173,14 +160,8 @@ class App:
         except ValueError:
             messagebox.showerror("Error", "Ingrese un ID válido.")
 
-    def buscar_por_nombre(self, nombre):
-        for producto in self.productos:
-            if producto.nombre == nombre:
-                return producto
-        return None
-
     def listar(self):
-        productos = self.inventario.in_orden()
+        productos = self.arbol.in_orden()
         if productos:
             lista = "\n".join(str(producto) for producto in productos)
             messagebox.showinfo("Inventario", lista)
